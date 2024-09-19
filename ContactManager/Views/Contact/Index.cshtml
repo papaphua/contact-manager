@@ -9,7 +9,7 @@
         <div class="card-body">
             <dl>
                 <dd>
-                    <input type="file" name="file"/>
+                    <input type="file" name="file" required/>
                 </dd>
             </dl>
             <input class="btn btn-primary" type="submit" value="Upload"/>
@@ -24,19 +24,19 @@
     <thead>
     <tr>
         <th>
-            <input type="button" class="btn btn-info" value="Name">
+            <input type="button" class="btn btn-info sortable" data-column="Name" data-order="asc" value="Name">
         </th>
         <th>
-            <input type="button" class="btn btn-info" value="Date of Birth">
+            <input type="button" class="btn btn-info sortable" data-column="DateOfBirth" data-order="asc" value="Date of Birth">
         </th>
         <th>
-            <input type="button" class="btn btn-info" value="Married">
+            <input type="button" class="btn btn-info sortable" data-column="Married" data-order="asc" value="Married">
         </th>
         <th>
-            <input type="button" class="btn btn-info" value="Phone">
+            <input type="button" class="btn btn-info sortable" data-column="Phone" data-order="asc" value="Phone">
         </th>
         <th>
-            <input type="button" class="btn btn-info" value="Salary">
+            <input type="button" class="btn btn-info sortable" data-column="Salary" data-order="asc" value="Salary">
         </th>
         <th colspan="2">
             <span class="d-flex flex-row justify-content-center">Actions</span>
@@ -57,7 +57,7 @@
                     <input type="date" name="updatedContact.DateOfBirth" value="@contact.DateOfBirth.ToString("yyyy-MM-dd")" required/>
                 </td>
                 <td>
-                    <input type="checkbox" name="updatedContact.Married" value="true" @(contact.Married ? "checked" : "") required/>
+                    @Html.CheckBox("updatedContact.Married", contact.Married)
                 </td>
                 <td>
                     <input type="text" pattern="0[0-9]{9}" title="Phone number must be in the format 0XXXXXXXXX." name="updatedContact.Phone" value="@contact.Phone" required/>
@@ -101,4 +101,42 @@
         });
     });
     
+    // sorting functionality
+    document.querySelectorAll('.sortable').forEach(header => {
+        header.addEventListener('click', function() {
+            const column = this.getAttribute('data-column');
+            const order = this.getAttribute('data-order');
+            const newOrder = order === 'asc' ? 'desc' : 'asc';
+
+            const tableBody = document.querySelector('#contactsTable tbody');
+            const rowsArray = Array.from(tableBody.querySelectorAll('tr'));
+
+            rowsArray.sort((a, b) => {
+                let aInput = a.querySelector(`input[name="updatedContact.${column}"]`);
+                let bInput = b.querySelector(`input[name="updatedContact.${column}"]`);
+                
+                let aValue, bValue;
+                
+                if (column === "Married") {
+                    aValue = aInput.checked ? 1 : 0;
+                    bValue = bInput.checked ? 1 : 0;
+                }
+                else {
+                    aValue = aInput.value;
+                    bValue = bInput.value;
+                }
+
+                if (order === 'asc') {
+                    return (aValue > bValue) ? 1 : (aValue < bValue) ? -1 : 0;
+                } else {
+                    return (aValue < bValue) ? 1 : (aValue > bValue) ? -1 : 0;
+                }
+            });
+
+            rowsArray.forEach(row => tableBody.appendChild(row));
+
+            document.querySelectorAll('.sortable').forEach(h => h.setAttribute('data-order', 'asc'));
+            this.setAttribute('data-order', newOrder);
+        });
+    });
 </script>

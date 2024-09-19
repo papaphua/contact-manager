@@ -49,7 +49,7 @@ public sealed class ContactService(ApplicationDbContext db)
         }
         catch (Exception)
         {
-            throw new Exception("An error occurred while deleting the contact.");
+            throw new Exception("An error occurred while updating the contact.");
         }
     }
 
