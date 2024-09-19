@@ -4,26 +4,43 @@
     ViewData["Title"] = "Contacts";
 }
 
-<div class="d-flex flex-row justify-content-end mt-3">
-    <form enctype="multipart/form-data" asp-action="ImportCsv" method="post">
-        <dl>
-            <dd>
-                <input type="file" name="file"/>
-            </dd>
-        </dl>
-        <input class="btn btn-primary" type="submit" value="Upload"/>
+<div class="d-flex flex-row justify-content-between align-items-center my-3">
+    <form enctype="multipart/form-data" asp-action="ImportCsv" method="post" class="card">
+        <div class="card-body">
+            <dl>
+                <dd>
+                    <input type="file" name="file"/>
+                </dd>
+            </dl>
+            <input class="btn btn-primary" type="submit" value="Upload"/>
+        </div>
     </form>
+    <div>
+        <input type="text" class="input-group-text" placeholder="Search">
+    </div>
 </div>
 
 <table id="contactsTable" class="table">
     <thead>
     <tr>
-        <th>Name</th>
-        <th>Date of Birth</th>
-        <th>Married</th>
-        <th>Phone</th>
-        <th>Salary</th>
-        <th>Actions</th>
+        <th>
+            <input type="button" class="btn btn-info" value="Name">
+        </th>
+        <th>
+            <input type="button" class="btn btn-info" value="Date of Birth">
+        </th>
+        <th>
+            <input type="button" class="btn btn-info" value="Married">
+        </th>
+        <th>
+            <input type="button" class="btn btn-info" value="Phone">
+        </th>
+        <th>
+            <input type="button" class="btn btn-info" value="Salary">
+        </th>
+        <th colspan="2">
+            <span class="d-flex flex-row justify-content-center">Actions</span>
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -34,31 +51,35 @@
                 <input type="hidden" name="id" value="@contact.Id"/>
 
                 <td>
-                    <input type="text" name="updatedContact.Name" value="@contact.Name"/>
+                    <input type="text" name="updatedContact.Name" value="@contact.Name" required/>
                 </td>
                 <td>
-                    <input type="date" name="updatedContact.DateOfBirth" value="@contact.DateOfBirth.ToString("yyyy-MM-dd")"/>
+                    <input type="date" name="updatedContact.DateOfBirth" value="@contact.DateOfBirth.ToString("yyyy-MM-dd")" required/>
                 </td>
                 <td>
-                    <input type="checkbox" name="updatedContact.Married" value="true" @(contact.Married ? "checked" : "")/>
+                    <input type="checkbox" name="updatedContact.Married" value="true" @(contact.Married ? "checked" : "") required/>
                 </td>
                 <td>
-                    <input type="text" name="updatedContact.Phone" value="@contact.Phone"/>
+                    <input type="text" pattern="0[0-9]{9}" title="Phone number must be in the format 0XXXXXXXXX." name="updatedContact.Phone" value="@contact.Phone" required/>
                 </td>
                 <td>
-                    <input type="number" name="updatedContact.Salary" value="@contact.Salary"/>
+                    <input type="number" step="0.01" name="updatedContact.Salary" value="@contact.Salary" required/>
                 </td>
                 <td>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </td>
             </form>
-            <td>
-                <form asp-action="Delete" method="post">
+            <form asp-action="Delete" method="post">
+                <td>
                     <input type="hidden" name="id" value="@contact.Id"/>
                     <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </td>
+                </td>
+            </form>
         </tr>
     }
     </tbody>
 </table>
+
+<script>
+    
+</script>
