@@ -23,4 +23,10 @@ public sealed class ContactController(IContactService contactService)
         await contactService.UpdateAsync(id, updatedContact);
         return RedirectToAction("Index");
     }
+
+    public async Task<IActionResult> ImportCsv(IFormFile file)
+    {
+        await contactService.ImportCsvAsync(file);
+        return RedirectToAction("Index");
+    }
 }

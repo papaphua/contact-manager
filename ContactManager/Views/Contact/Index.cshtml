@@ -4,6 +4,17 @@
     ViewData["Title"] = "Contacts";
 }
 
+<div class="d-flex flex-row justify-content-end mt-3">
+    <form enctype="multipart/form-data" asp-action="ImportCsv" method="post">
+        <dl>
+            <dd>
+                <input type="file" name="file"/>
+            </dd>
+        </dl>
+        <input class="btn btn-primary" type="submit" value="Upload"/>
+    </form>
+</div>
+
 <table id="contactsTable" class="table">
     <thead>
     <tr>

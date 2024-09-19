@@ -9,4 +9,6 @@ public interface IContactService
     Task DeleteAsync(Guid id);
 
     Task UpdateAsync(Guid id, Contact updatedContact);
+
+    Task ImportCsvAsync(IFormFile file);
 }
