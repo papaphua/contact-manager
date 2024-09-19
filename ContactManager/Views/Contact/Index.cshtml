@@ -16,7 +16,7 @@
         </div>
     </form>
     <div>
-        <input type="text" class="input-group-text" placeholder="Search">
+        <input id="search" type="text" class="input-group-text" placeholder="Search">
     </div>
 </div>
 
@@ -81,5 +81,24 @@
 </table>
 
 <script>
+    // filtering functionality
+    document.getElementById('search').addEventListener('input', function() {
+        const searchValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#contactsTable tbody tr');
+
+        rows.forEach(row => {
+            const inputs = row.querySelectorAll('input[type="text"], input[type="number"], input[type="checkbox"], input[type="date"]');
+            
+            let shouldShow = false;
+            
+            inputs.forEach(input => {
+                if (input.value.toLowerCase().includes(searchValue)) {
+                    shouldShow = true;
+                }
+            });
+
+            row.style.display = shouldShow ? '' : 'none';
+        });
+    });
     
 </script>
